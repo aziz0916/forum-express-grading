@@ -39,11 +39,22 @@ const userController = {
   },
   getUser: (req, res, next) => {
     return User.findByPk(req.params.id, {
-      include: [{ model: Comment, include: Restaurant }]
+      include: [
+        { model: Comment, include: Restaurant },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
     })
       .then(user => {
         if (!user) throw new Error("User didn't exist!")
-        res.render('users/profile', { user: user.toJSON() })
+        const set = new Set()
+        const newComments = user.toJSON().Comments.filter(comment => !set.has(comment.restaurantId) ? set.add(comment.restaurantId) : false)
+        user = {
+          ...user.toJSON(),
+          Comments: newComments
+        }
+        res.render('users/profile', { user })
       })
       .catch(err => next(err))
   },

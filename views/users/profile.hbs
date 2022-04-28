@@ -10,7 +10,13 @@
           <h5><strong>{{user.name}}</strong></h5>
         </li>
         <li class="mb-2">{{user.email}}</li>
-        <li class="mb-5">{{#if user.Comments.length}}{{user.Comments.length}} 已評論餐廳{{else}}尚未評論餐廳{{/if}}</li>
+        <li class="mb-1">{{#if user.Comments.length}}{{user.Comments.length}} 已評論餐廳{{else}}尚未評論餐廳{{/if}}</li>
+        <li class="mb-1">{{#if user.FavoritedRestaurants.length}}{{user.FavoritedRestaurants.length}}
+          收藏的餐廳{{else}}尚未收藏餐廳{{/if}}</li>
+        <li class="mb-1">{{#if user.Followings.length}}{{user.Followings.length}} followings (追蹤者){{else}}尚無追蹤者{{/if}}
+        </li>
+        <li class="mb-3">{{#if user.Followers.length}}{{user.Followers.length}} followers (追隨者){{else}}尚無追隨者{{/if}}
+        </li>
       </ul>
     </div>
     <a class="btn btn-primary" href='/users/{{user.id}}/edit'>
@@ -20,7 +26,37 @@
   <hr>
   </div>
 </div>
-<div class="card">
+<div class="row mx-0 justify-content-center mb-4">
+  <div class="col-md-3 p-0 mx-auto">
+    <div class="card mb-2">
+      <div class="card-header">
+        {{#if user.Followings.length}}{{user.Followings.length}} followings (追蹤者){{else}}尚無追蹤者{{/if}}
+      </div>
+      <div class="card-body">
+        {{#each user.Followings}}
+        <a class="text-decoration-none" href="/users/{{this.id}}">
+          <img class="img-responsive center-block m-2" src="{{this.image}}"
+            style="width: 100px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+    <div class="card mb-2">
+      <div class="card-header">
+        {{#if user.Followers.length}}{{user.Followers.length}} followers (追隨者){{else}}尚無追隨者{{/if}}
+      </div>
+      <div class="card-body">
+        {{#each user.Followers}}
+        <a class="text-decoration-none" href="/users/{{this.id}}">
+          <img class="img-responsive center-block m-2" src="{{this.image}}"
+            style="width: 100px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8 p-0 mx-auto">
+    <div class="card mb-2">
   <div class="card-header">
     {{#if user.Comments.length}}{{user.Comments.length}} 已評論餐廳{{else}}尚未評論餐廳{{/if}}
   </div>
@@ -31,4 +67,20 @@
       style="width: 100px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
     </a>
     {{/each}}
+  </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      {{#if user.FavoritedRestaurants.length}}{{user.FavoritedRestaurants.length}} 收藏的餐廳{{else}}尚未收藏餐廳{{/if}}
+    </div>
+    <div class="card-body">
+      {{#each user.FavoritedRestaurants}}
+      <a class="text-decoration-none" href="/restaurants/{{this.id}}">
+        <img class="img-responsive center-block m-2" src="{{this.image}}"
+          style="width: 100px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+      </a>
+      {{/each}}
+    </div>
+  </div>
+  </div>
   </div>
